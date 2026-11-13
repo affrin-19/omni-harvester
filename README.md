@@ -32,7 +32,7 @@ A low forward-voltage Schottky diode-OR architecture concurrently pools charge i
 
 ---
 
-## System Architecture
+## System Architecture 
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
