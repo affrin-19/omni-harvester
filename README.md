@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Omni-Harvester
+# Omni-Harvester
 ### Universal Hybrid Multi-Source Energy Harvesting System for Autonomous IoT Applications
 
 [![Open Source Hardware](https://img.shields.io/badge/Open%20Source-Hardware-3DA639?logo=open-source-initiative&logoColor=white)](https://github.com/affrin-19/omni-harvester)
@@ -12,13 +12,13 @@
 
 **A unified, multi-modal ambient energy harvesting architecture combining Solar, Piezoelectric, Thermoelectric (TEG), and Ambient Radio-Frequency (RF) sources to deliver uninterrupted, battery-less power for low-power edge IoT devices.**
 
-[System Architecture](#system-architecture) · [Circuit Schematic](#circuit-schematic) · [Physical Modeling & Simulation](#physical-modeling--simulation) · [Interactive Lab](#interactive-web-simulation) · [Bill of Materials](#bill-of-materials) · [Firmware](#firmware--power-management) · [Publications](#publications--citation)
+[System Architecture](#system-architecture) · [Circuit Schematic](#circuit-schematic) · [Physical Modeling & Simulation](#physical-modeling--simulation) · [Interactive Lab](#interactive-web-simulation) · [Bill of Materials](#bill-of-materials) · [Firmware](#firmware-and-power-management) · [Publications](#publications-and-citation)
 
 </div>
 
 ---
 
-## 📌 Executive Summary
+## Executive Summary
 
 Traditional wireless sensor networks (WSNs) and edge Internet of Things (IoT) nodes rely on chemical batteries that suffer from finite operational lifespans, periodic manual maintenance overhead, and environmental toxicity. While single-source energy harvesting (e.g., solar-only) offers partial autonomy, it is fundamentally vulnerable to environmental intermittency (e.g., complete solar inactivity at night or in shaded indoor settings).
 
@@ -32,7 +32,7 @@ A low forward-voltage Schottky diode-OR architecture concurrently pools charge i
 
 ---
 
-## 🔬 System Architecture
+## System Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────┐
@@ -75,7 +75,7 @@ A low forward-voltage Schottky diode-OR architecture concurrently pools charge i
 
 ---
 
-## ⚡ Ambient Harvesting Modalities
+## Ambient Harvesting Modalities
 
 | Harvesting Domain | Transducer / Component | Ambient Stimulus | Typical Open-Circuit Voltage | Typical Current Range | Conditioning Circuitry |
 | :--- | :--- | :--- | :---: | :---: | :--- |
@@ -86,7 +86,7 @@ A low forward-voltage Schottky diode-OR architecture concurrently pools charge i
 
 ---
 
-## 📐 Circuit Schematic
+## Circuit Schematic
 
 The core combining network employs a parallel diode-OR topology utilizing ultra-low forward-voltage Schottky barrier diodes ($1\text{N}5819$):
 
@@ -127,7 +127,7 @@ The SPICE circuit netlist is available in [`hardware/schematics/omni_harvester.c
 
 ---
 
-## 📊 Experimental Results & Physical Benchmarks
+## Experimental Results and Physical Benchmarks
 
 The physical mathematical model simulates transient multi-source combining dynamics, supercapacitor charging rates, and boost converter efficiency curves.
 
@@ -153,7 +153,7 @@ Bar graph depicting instantaneous voltages and currents delivered across individ
 
 ---
 
-## 🖥️ Interactive Web Simulation
+## Interactive Web Simulation
 
 An interactive HTML5/Canvas simulation is provided in [`web-simulation/index.html`](web-simulation/index.html).
 
@@ -173,7 +173,7 @@ Providing real-time calculated metrics for DC bus potential, total injected curr
 
 ---
 
-## 📦 Bill of Materials (BOM)
+## Bill of Materials (BOM)
 
 | Item | Reference | Component Name | Key Specification | Package | Qty |
 | :---: | :--- | :--- | :--- | :--- | :---: |
@@ -192,7 +192,7 @@ For complete manufacturer part numbers and procurement details, see [`hardware/b
 
 ---
 
-## 💻 Firmware & Power Management
+## Firmware and Power Management
 
 The embedded firmware ([`firmware/src/main.cpp`](firmware/src/main.cpp)) implements an energy-aware finite state machine (FSM):
 
@@ -226,7 +226,7 @@ pio run --target upload
 
 ---
 
-## 🛠️ Verification & Simulation
+## Verification and Simulation
 
 Run the automated simulation test suite using Python:
 
@@ -243,7 +243,7 @@ python simulation/plot_results.py
 
 ---
 
-## 👥 Authors
+## Authors
 
 | Name | Email | Role |
 | :--- | :--- | :--- |
@@ -253,7 +253,7 @@ python simulation/plot_results.py
 
 ---
 
-## 📜 Publications & Citation
+## Publications and Citation
 
 If you utilize this architecture, circuit topologies, or simulation models in academic research or industrial implementations, please cite:
 
@@ -268,6 +268,6 @@ If you utilize this architecture, circuit topologies, or simulation models in ac
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE) — open for academic, personal, and commercial engineering development.
