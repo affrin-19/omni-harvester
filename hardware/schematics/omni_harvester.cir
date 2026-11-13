@@ -1,0 +1,72 @@
+# Omni-Harvester SPICE Netlist
+* Universal Hybrid Energy Harvesting Power Management Unit
+* Multi-source combining: Solar (6V), Piezo (VSINE + Bridge), TEG (0.5V), RF (0.3V)
+* Common DC Bus with 1N5819 Schottky diode-OR topology and Supercapacitor buffer
+
+* -------------------------------------------------------------
+* 1. Solar Harvesting Stage
+* -------------------------------------------------------------
+V_SOLAR N_SOL_IN 0 DC 6.0
+R_SOL_INT N_SOL_IN N_SOL_OUT 36.0  ; Internal series resistance (~167mA peak @ 6V)
+D1 N_SOL_OUT N_BUS D1N5819
+
+* -------------------------------------------------------------
+* 2. Thermoelectric Generator (TEG) Stage
+* -------------------------------------------------------------
+V_TEG N_TEG_IN 0 DC 0.5            ; Representative open-circuit voltage for dT = 30K
+R_TEG_INT N_TEG_IN N_TEG_OUT 2.5   ; Internal electrical resistance of TEC1-12706
+D2 N_TEG_OUT N_BUS D1N5819
+
+* -------------------------------------------------------------
+* 3. Ambient RF Harvester Stage
+* -------------------------------------------------------------
+V_RF N_RF_IN 0 DC 0.3              ; Rectified output voltage from antenna matching & multiplier
+R_RF_INT N_RF_IN N_RF_OUT 1000.0   ; High source impedance of RF harvester
+D3 N_RF_OUT N_BUS D1N5819
+
+* -------------------------------------------------------------
+* 4. Piezoelectric Vibration Harvester Stage (AC Source + Bridge)
+* -------------------------------------------------------------
+V_PIEZO N_PZ_P N_PZ_N SIN(0 5.0 50 0 0) ; 5V peak, 50Hz mechanical vibration
+R_PZ_INT N_PZ_P N_PZ_P_INT 2500.0       ; PZT transducer source impedance
+
+* Full-Wave Bridge Rectifier (DF02M / Schottky equivalent)
+D_BR1 N_PZ_P_INT N_PZ_DC_P D1N5819
+D_BR2 0 N_PZ_P_INT D1N5819
+D_BR3 N_PZ_N N_PZ_DC_P D1N5819
+D_BR4 0 N_PZ_N D1N5819
+
+* Piezo Bus Isolation Diode
+D4 N_PZ_DC_P N_BUS D1N5819
+
+* -------------------------------------------------------------
+* 5. Central Energy Storage & DC Bus Smoothing
+* -------------------------------------------------------------
+* C1: Fast smoothing capacitor (1000uF)
+C1 N_BUS 0 1000uF IC=0.0
+R_ESR_C1 N_BUS N_CAP_SMOOTH 0.05
+
+* C_SUPER: 1.0 Farad / 5.5V Supercapacitor storage element
+C_SUPERCAP N_BUS 0 1.0 IC=0.0
+R_LEAK_SUPERCAP N_BUS 0 500k       ; Supercapacitor self-discharge leakage
+
+* -------------------------------------------------------------
+* 6. Regulated Boost Converter & Microcontroller Load
+* -------------------------------------------------------------
+* High efficiency synchronous boost converter model (V_in: 1.0-5.0V -> V_out: 3.3V)
+* Represented as equivalent dynamic power sink for the MCU load
+R_LOAD_BLE N_BUS 0 180.0           ; Periodic active transmission load (~20mA @ 3.6V)
+R_LOAD_SLEEP N_BUS 0 1.5Meg        ; Deep-sleep standby load (~2.4uA @ 3.6V)
+
+* -------------------------------------------------------------
+* Diode Models
+* -------------------------------------------------------------
+.MODEL D1N5819 D (IS=31.7uA RS=0.051 N=1.373 BV=40V IBV=1mA CJO=110pF VJ=0.75 M=0.333)
+.MODEL D1N4007 D (IS=7.027nA RS=0.034 N=1.8 BV=1000V IBV=10uA CJO=10pF)
+
+* -------------------------------------------------------------
+* Simulation Controls
+* -------------------------------------------------------------
+.TRAN 0.01s 10s
+.PROBE
+.END
